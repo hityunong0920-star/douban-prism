@@ -173,6 +173,43 @@ function mapRawRow(row: Record<string, unknown>, fallbackCategory?: Category): D
   };
 }
 
+function dedupeRecords(records: DoubanRecord[]): DoubanRecord[] {
+  const statusPriority: Record<StatusGroup, number> = { done: 3, doing: 2, wish: 1 };
+  const map = new Map<string, DoubanRecord>();
+
+  for (const r of records) {
+    const key = r.id;
+    const existing = map.get(key);
+    if (!existing) {
+      map.set(key, r);
+      continue;
+    }
+
+    const rBetterStatus = statusPriority[r.statusGroup] > statusPriority[existing.statusGroup];
+    const sameStatus = statusPriority[r.statusGroup] === statusPriority[existing.statusGroup];
+    const primary = rBetterStatus ? r : existing;
+    const secondary = rBetterStatus ? existing : r;
+
+    map.set(key, {
+      ...primary,
+      title: primary.title.length >= secondary.title.length ? primary.title : secondary.title,
+      shortTitle: primary.shortTitle || secondary.shortTitle,
+      rating:
+        sameStatus && primary.rating === null
+          ? secondary.rating
+          : primary.rating ?? secondary.rating,
+      date: primary.date || secondary.date,
+      year: primary.year ?? secondary.year,
+      comment:
+        primary.comment.length >= secondary.comment.length ? primary.comment : secondary.comment,
+      tags: primary.tags.length >= secondary.tags.length ? primary.tags : secondary.tags,
+      url: primary.url || secondary.url,
+    });
+  }
+
+  return Array.from(map.values());
+}
+
 export function inferUserNameFromFileName(fileName: string): string {
   const base = fileName.replace(/\.(csv|json|xlsx|xls)$/i, '');
   const match = base.match(/(?:豆瓣记录|douban)[_\-\s]+(.+)$/i);
@@ -186,9 +223,11 @@ export function parseCsvText(csvText: string, sourceName = '导入数据.csv', c
     skipEmptyLines: true,
   });
 
-  const records = parsed.data
-    .map((row) => mapRawRow(row))
-    .filter((r): r is DoubanRecord => r !== null);
+  const records = dedupeRecords(
+    parsed.data
+      .map((row) => mapRawRow(row))
+      .filter((r): r is DoubanRecord => r !== null)
+  );
 
   return {
     name: customName || inferUserNameFromFileName(sourceName),
@@ -228,7 +267,7 @@ export function parseJsonText(jsonText: string, sourceName = '导入数据.json'
   return {
     name: customName || (typeof raw?.name === 'string' ? raw.name : inferUserNameFromFileName(sourceName)),
     sourceFileName: sourceName,
-    records,
+    records: dedupeRecords(records),
     loadedAt: new Date().toISOString(),
   };
 }
@@ -279,13 +318,14 @@ export async function parseUploadedFile(file: File): Promise<UserDataset> {
       }
     }
 
-    if (allRecords.length === 0) {
+    const deduped = dedupeRecords(allRecords);
+    if (deduped.length === 0) {
       throw new Error('未在 Excel 文件中解析到有效豆瓣记录。');
     }
     return {
       name: inferUserNameFromFileName(file.name),
       sourceFileName: file.name,
-      records: allRecords,
+      records: deduped,
       loadedAt: new Date().toISOString(),
     };
   }
