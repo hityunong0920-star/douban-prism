@@ -14,7 +14,7 @@ export function PrismHeroMark({ className = 'w-64 sm:w-80 h-auto' }: { className
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
-      aria-label="DoubanLens 三棱镜标志"
+      aria-label="DoubanPrism 三棱镜标志"
       role="img"
     >
       <defs>

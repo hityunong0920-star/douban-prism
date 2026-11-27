@@ -7,7 +7,7 @@ import {
   type WishlistCandidate,
 } from './analytics';
 
-const AI_CONFIG_KEY = 'douban-lens-ai-config';
+const AI_CONFIG_KEY = 'douban-prism-ai-config';
 
 export interface AiPreset {
   id: string;
@@ -57,13 +57,24 @@ export const AI_PRESETS: AiPreset[] = [
 
 export function loadAiConfig(): AiConfig {
   try {
-    const raw = window.localStorage.getItem(AI_CONFIG_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
+    const sessionRaw = window.sessionStorage.getItem(AI_CONFIG_KEY);
+    if (sessionRaw) {
+      const parsed = JSON.parse(sessionRaw);
       return {
         baseUrl: parsed.baseUrl || AI_PRESETS[0].baseUrl,
         apiKey: parsed.apiKey || '',
         model: parsed.model || AI_PRESETS[0].defaultModel,
+        rememberKey: Boolean(parsed.rememberKey),
+      };
+    }
+    const localRaw = window.localStorage.getItem(AI_CONFIG_KEY);
+    if (localRaw) {
+      const parsed = JSON.parse(localRaw);
+      return {
+        baseUrl: parsed.baseUrl || AI_PRESETS[0].baseUrl,
+        apiKey: parsed.apiKey || '',
+        model: parsed.model || AI_PRESETS[0].defaultModel,
+        rememberKey: true,
       };
     }
   } catch {
@@ -73,11 +84,28 @@ export function loadAiConfig(): AiConfig {
     baseUrl: AI_PRESETS[0].baseUrl,
     apiKey: '',
     model: AI_PRESETS[0].defaultModel,
+    rememberKey: false,
   };
 }
 
 export function saveAiConfig(config: AiConfig): void {
-  window.localStorage.setItem(AI_CONFIG_KEY, JSON.stringify(config));
+  const payload = JSON.stringify({
+    baseUrl: config.baseUrl,
+    apiKey: config.apiKey,
+    model: config.model,
+    rememberKey: Boolean(config.rememberKey),
+  });
+  window.sessionStorage.setItem(AI_CONFIG_KEY, payload);
+  if (config.rememberKey && config.apiKey.trim()) {
+    window.localStorage.setItem(AI_CONFIG_KEY, payload);
+  } else {
+    window.localStorage.removeItem(AI_CONFIG_KEY);
+  }
+}
+
+export function clearStoredAiKey(): void {
+  window.sessionStorage.removeItem(AI_CONFIG_KEY);
+  window.localStorage.removeItem(AI_CONFIG_KEY);
 }
 
 export function extractJsonFromText<T>(rawText: string): T {

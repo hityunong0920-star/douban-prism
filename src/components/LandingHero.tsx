@@ -78,7 +78,7 @@ export function LandingHero({
         <div className="flex flex-col items-center gap-2">
           <PrismHeroMark className="w-56 sm:w-72 h-auto text-[var(--text-primary)]" />
           <div className="text-[11px] sm:text-xs font-mono-num tracking-[0.22em] uppercase text-[var(--text-muted)]">
-            DOUBANLENS · 豆瓣书影音游整理工具
+            DOUBANPRISM · 豆瓣书影音游整理工具
           </div>
         </div>
 

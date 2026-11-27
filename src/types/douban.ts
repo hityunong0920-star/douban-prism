@@ -28,6 +28,7 @@ export interface AiConfig {
   baseUrl: string;
   apiKey: string;
   model: string;
+  rememberKey?: boolean;
 }
 
 export interface AiTimelinePeriod {

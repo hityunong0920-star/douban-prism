@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { Check, Eye, EyeOff, KeyRound, ShieldCheck, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Check, Eye, EyeOff, KeyRound, ShieldCheck, Trash2, X } from 'lucide-react';
 import type { AiConfig } from '../types/douban';
-import { AI_PRESETS } from '../utils/ai';
+import { AI_PRESETS, clearStoredAiKey } from '../utils/ai';
 
 interface AiSettingsModalProps {
   open: boolean;
@@ -14,7 +14,18 @@ export function AiSettingsModal({ open, config, onSave, onClose }: AiSettingsMod
   const [draft, setDraft] = useState<AiConfig>(config);
   const [showKey, setShowKey] = useState(false);
 
+  useEffect(() => {
+    if (open) setDraft(config);
+  }, [open, config]);
+
   if (!open) return null;
+
+  const handleClearKey = () => {
+    clearStoredAiKey();
+    const cleared: AiConfig = { ...draft, apiKey: '', rememberKey: false };
+    setDraft(cleared);
+    onSave(cleared);
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/55 backdrop-blur-sm">
@@ -35,7 +46,7 @@ export function AiSettingsModal({ open, config, onSave, onClose }: AiSettingsMod
             </h2>
           </div>
           <p className="text-xs text-[var(--text-secondary)]">
-            你的 API Key 仅保存在当前浏览器 <code className="font-mono-num">localStorage</code>，请求由浏览器直连模型服务商，不经过任何第三方服务器。
+            请求由当前浏览器直连你填写的模型服务商，不经过任何第三方服务器。默认仅在本次标签页会话有效，关闭网页即自动清除。
           </p>
         </div>
 
@@ -118,6 +129,15 @@ export function AiSettingsModal({ open, config, onSave, onClose }: AiSettingsMod
               </button>
             </div>
           </div>
+          <label className="flex items-center gap-2 text-xs text-[var(--text-secondary)] cursor-pointer select-none pt-1">
+            <input
+              type="checkbox"
+              checked={Boolean(draft.rememberKey)}
+              onChange={(e) => setDraft({ ...draft, rememberKey: e.target.checked })}
+              className="accent-[var(--accent)]"
+            />
+            <span>记住 API Key 到本机浏览器（不勾选则关闭当前标签页后自动清除，公共电脑建议不勾选）</span>
+          </label>
         </div>
 
         <div className="flex items-start gap-2 p-3 rounded-xl bg-[var(--accent-soft)]/60 text-xs text-[var(--accent-text)]">
@@ -127,25 +147,39 @@ export function AiSettingsModal({ open, config, onSave, onClose }: AiSettingsMod
           </span>
         </div>
 
-        <div className="flex items-center justify-end gap-2 pt-1">
-          <button
-            type="button"
-            onClick={onClose}
-            className="px-4 py-2 rounded-xl text-xs font-medium text-[var(--text-secondary)] hover:bg-[var(--bg-subtle)] cursor-pointer"
-          >
-            取消
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              onSave(draft);
-              onClose();
-            }}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-[var(--accent)] text-white hover:opacity-90 cursor-pointer"
-          >
-            <Check className="w-3.5 h-3.5" />
-            保存配置
-          </button>
+        <div className="flex items-center justify-between gap-2 pt-1">
+          <div>
+            {(draft.apiKey || config.apiKey) && (
+              <button
+                type="button"
+                onClick={handleClearKey}
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium text-[var(--crimson)] hover:bg-[var(--crimson-soft)] cursor-pointer"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                清除已保存 Key
+              </button>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 rounded-xl text-xs font-medium text-[var(--text-secondary)] hover:bg-[var(--bg-subtle)] cursor-pointer"
+            >
+              取消
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                onSave(draft);
+                onClose();
+              }}
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-[var(--accent)] text-white hover:opacity-90 cursor-pointer"
+            >
+              <Check className="w-3.5 h-3.5" />
+              保存配置
+            </button>
+          </div>
         </div>
       </div>
     </div>

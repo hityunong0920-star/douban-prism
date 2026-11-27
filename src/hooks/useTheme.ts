@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 export type ThemeMode = 'light' | 'dark';
 
-const STORAGE_KEY = 'douban-lens-theme';
+const STORAGE_KEY = 'douban-prism-theme';
 
 export function useTheme() {
   const [theme, setTheme] = useState<ThemeMode>(() => {

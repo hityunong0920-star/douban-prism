@@ -1,11 +1,11 @@
 ---
-name: douban-lens-exporter
-description: Guide an AI coding agent with browser control (Antigravity / Claude Code / Codex) to safely export a user's Douban movies, books, games, and music records into DoubanLens standard CSV format.
+name: douban-prism-exporter
+description: Guide an AI coding agent with browser control (Antigravity / Claude Code / Codex) to safely export a user's Douban movies, books, games, and music records into DoubanPrism standard CSV format.
 ---
 
-# DoubanLens Exporter Skill
+# DoubanPrism Exporter Skill
 
-Use this skill when the user asks you to export their Douban (豆瓣) personal records (or a friend's public profile) for **DoubanLens（豆瓣棱镜）**.
+Use this skill when the user asks you to export their Douban (豆瓣) personal records (or a friend's public profile) for **DoubanPrism（豆瓣棱镜）**.
 
 ## Why Browser-Assisted Export?
 
@@ -42,7 +42,7 @@ Douban blocks headless datacenter crawlers and unauthenticated scraping. Using t
    - `状态`: `看过`/`在看`/`想看` | `读过`/`在读`/`想读` | `玩过`/`在玩`/`想玩` | `听过`/`在听`/`想听`
    - `评分`: `5星` | `4星` | `3星` | `2星` | `1星` | `未评分`
    - `标记日期`: `YYYY-MM-DD`
-   - `链接`: Full subject/game URL (used by DoubanLens for exact matching in **Taste Clash**)
+   - `链接`: Full subject/game URL (used by DoubanPrism for exact matching in **Taste Clash**)
 
 5. **Done**:
-   Tell the user where the CSV was saved and remind them to drag & drop it into **DoubanLens**.
+   Tell the user where the CSV was saved and remind them to drag & drop it into **DoubanPrism**.

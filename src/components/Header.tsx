@@ -62,7 +62,7 @@ export function Header({
             <div>
               <div className="flex items-baseline gap-1.5">
                 <span className="font-serif-editorial font-bold text-base sm:text-lg tracking-tight text-[var(--text-primary)]">
-                  DoubanLens
+                  DoubanPrism
                 </span>
                 <span className="hidden sm:inline text-xs text-[var(--text-muted)] font-serif-editorial">
                   豆瓣棱镜

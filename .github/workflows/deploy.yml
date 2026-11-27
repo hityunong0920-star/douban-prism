@@ -1,4 +1,4 @@
-name: Deploy DoubanLens to GitHub Pages
+name: Deploy DoubanPrism to GitHub Pages
 
 on:
   push:

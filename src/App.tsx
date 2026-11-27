@@ -141,7 +141,7 @@ export default function App() {
       <footer className="border-t border-[var(--border-subtle)] mt-12 py-6">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-[var(--text-muted)]">
           <span>
-            DoubanLens · 豆瓣棱镜 — 纯前端静态应用，所有数据均在浏览器本地解析计算
+            DoubanPrism · 豆瓣棱镜 — 纯前端静态应用，所有数据均在浏览器本地解析计算
           </span>
           <span>支持 GitHub Pages / Vercel 零成本静态部署</span>
         </div>

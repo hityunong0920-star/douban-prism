@@ -1,4 +1,4 @@
-# DoubanLens · 豆瓣棱镜
+# DoubanPrism · 豆瓣棱镜
 
 > **豆瓣书影音游品味实验室（自娱自乐）** —— 无需后端、数据零上传、亮/暗双主题，支持 GitHub Pages / Vercel 零成本部署。
 
@@ -22,7 +22,7 @@
 
 ## 功能总览（纯本地 vs AI 辅助）
 
-DoubanLens 采用「本地统计 + 可选 AI 总结」的结构。不配置任何 API Key 也能完整使用所有统计、图表、随机抽取、双人对比与图片导出功能，所有计算都在浏览器本地完成。
+DoubanPrism 采用「本地统计 + 可选 AI 总结」的结构。不配置任何 API Key 也能完整使用所有统计、图表、随机抽取、双人对比与图片导出功能，所有计算都在浏览器本地完成。
 
 | 模块 | 本地功能（无需 API Key） | 接入 AI 后的补充内容 |
 | :--- | :--- | :--- |
@@ -41,8 +41,8 @@ DoubanLens 采用「本地统计 + 可选 AI 总结」的结构。不配置任�
 需要 **Node.js >= 18**（推荐 Node 20 / 22）：
 
 ```bash
-git clone https://github.com/hityunong0920-star/douban-lens.git
-cd douban-lens
+git clone https://github.com/hityunong0920-star/douban-prism.git
+cd douban-prism
 npm install
 npm run dev
 ```
@@ -64,7 +64,7 @@ npm run dev
 
 ## 如何导出你的豆瓣数据（3 种方式）
 
-豆瓣对传统服务端爬虫有严格的反爬与 IP 封禁策略，因此 **DoubanLens 刻意将“数据采集”与“分析展示”彻底解耦**，不内置易失效的爬虫，而是兼容多种采集来源：
+豆瓣对传统服务端爬虫有严格的反爬与 IP 封禁策略，因此 **DoubanPrism 刻意将“数据采集”与“分析展示”彻底解耦**，不内置易失效的爬虫，而是兼容多种采集来源：
 
 ### 方式 A（推荐）：用 AI Agent 浏览器辅助导出
 
@@ -87,7 +87,7 @@ npm run dev
 
 ### 方式 B：使用现有开源导出工具
 
-DoubanLens 的前端解析器内置了多格式智能字段映射，可直接拖入以下常见工具导出的文件：
+DoubanPrism 的前端解析器内置了多格式智能字段映射，可直接拖入以下常见工具导出的文件：
 - **Chrome 插件导出**：如 `douban-archive` 导出的 `.json` / `.csv`
 - **桌面/CLI 工具导出**：如 `豆伴`、`douban-cli` 导出的 `.xlsx` / `.csv` / `.json`
 - **多 Sheet Excel**：支持把电影、读书、游戏、音乐分 Sheet 存放的 `.xlsx` 文件，系统会根据 Sheet 名称自动识别品类。
@@ -166,7 +166,7 @@ DoubanLens 的前端解析器内置了多格式智能字段映射，可直接拖
 ## 隐私与安全说明
 
 - **数据不出浏览器**：你的 CSV / Excel / JSON 文件仅在本地浏览器内存中解析与计算，**不会上传到任何项目方服务器**（本项目本身没有后端）。
-- **API Key 本地存储**：BYOK 模式下填写的 API Key 仅保存在当前浏览器的 `localStorage` 中，请求由浏览器直接发往你填写的模型服务商接口。
+- **API Key 安全控制**：BYOK 模式下默认仅保存在当前标签页会话（`sessionStorage`），关闭网页自动清除；可按需勾选记住到本机浏览器，也支持随时一键清除。请求由浏览器直连你填写的模型服务商接口。
 - **不会自动发请求**：只有在你主动点击 AI 生成按钮时，才会把压缩后的作品摘要发送给你配置的模型接口；使用纯本地功能全程零网络请求。
 
 ---
@@ -177,7 +177,7 @@ DoubanLens 的前端解析器内置了多格式智能字段映射，可直接拖
 - **核心依赖**：`papaparse`（CSV 解析）、`xlsx`（Excel 解析）、`html-to-image`（2x PNG 长图导出）、`lucide-react`（图标）
 
 ```text
-douban-lens/
+douban-prism/
 ├── SKILL.md                     # 给 AI Agent 使用的豆瓣导出指南
 ├── .github/workflows/deploy.yml # GitHub Pages 自动部署工作流
 ├── index.html

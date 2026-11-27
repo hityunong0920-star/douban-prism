@@ -79,7 +79,7 @@ export function TasteClash({
       const bg = theme === 'dark' ? '#0c0d10' : '#f6f3eb';
       await exportElementAsPng(
         reportCardRef.current,
-        `DoubanLens_${clash.userAName}_vs_${clash.userBName}_品味碰撞.png`,
+        `DoubanPrism_${clash.userAName}_vs_${clash.userBName}_品味碰撞.png`,
         bg
       );
     } finally {
@@ -351,7 +351,7 @@ export function TasteClash({
           <span>
             {clash.userAName} × {clash.userBName} · 平均评分差 {clash.avgRatingDiff}★
           </span>
-          <span>DoubanLens · 豆瓣棱镜</span>
+          <span>DoubanPrism · 豆瓣棱镜</span>
         </div>
       </div>
 

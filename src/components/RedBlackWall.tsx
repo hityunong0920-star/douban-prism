@@ -61,7 +61,7 @@ export function RedBlackWall({
       const bg = theme === 'dark' ? '#0c0d10' : '#f6f3eb';
       await exportElementAsPng(
         cardRef.current,
-        `DoubanLens_${dataset.name}_红黑品味卡片.png`,
+        `DoubanPrism_${dataset.name}_红黑品味卡片.png`,
         bg
       );
     } finally {
@@ -126,7 +126,7 @@ export function RedBlackWall({
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-4 border-b border-[var(--border-subtle)]">
             <div className="space-y-1">
               <div className="text-[11px] font-mono-num uppercase tracking-[0.2em] text-[var(--accent)]">
-                DOUBANLENS · TASTE MANIFESTO
+                DOUBANPRISM · TASTE MANIFESTO
               </div>
               <h3 className="font-serif-editorial text-2xl sm:text-3xl font-black tracking-tight">
                 {aiPersona?.archetype || `${dataset.name} 的审美红黑榜`}
@@ -262,7 +262,7 @@ export function RedBlackWall({
 
           {/* Poster Footer */}
           <div className="pt-3 border-t border-[var(--border-subtle)] flex items-center justify-between text-[10px] font-mono-num text-[var(--text-muted)]">
-            <span>Generated locally by DoubanLens · 豆瓣棱镜</span>
+            <span>Generated locally by DoubanPrism · 豆瓣棱镜</span>
             <span>{new Date().toISOString().slice(0, 10)}</span>
           </div>
         </div>
