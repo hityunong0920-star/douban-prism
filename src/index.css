@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --bg-page: #f6f3eb;
+  --bg-card: #fffdf8;
+  --bg-subtle: #ede8dc;
+  --bg-hover: #e5dfd1;
+  --text-primary: #1b1a17;
+  --text-secondary: #5c574d;
+  --text-muted: #8a8376;
+  --border-subtle: #e2dbcc;
+  --border-strong: #cfc5b0;
+  --accent: #1d6f42;
+  --accent-soft: #e3f1e9;
+  --accent-text: #155532;
+  --gold: #c68621;
+  --gold-soft: #fbf1dc;
+  --crimson: #b83a3a;
+  --crimson-soft: #fae7e7;
+
+  /* Heatmap intensity scale (Light: vintage archival Douban green) */
+  --heat-0: #eae4d6;
+  --heat-1: #b8dec5;
+  --heat-2: #6fbe8f;
+  --heat-3: #2e915b;
+  --heat-4: #155733;
+
+  --shadow-card: 0 1px 2px rgba(27, 26, 23, 0.04), 0 6px 20px rgba(27, 26, 23, 0.04);
+  --shadow-float: 0 14px 36px rgba(27, 26, 23, 0.12);
+}
+
+.dark {
+  --bg-page: #0c0d10;
+  --bg-card: #15171d;
+  --bg-subtle: #1d2028;
+  --bg-hover: #262a35;
+  --text-primary: #f1eee7;
+  --text-secondary: #a7a399;
+  --text-muted: #6f6c65;
+  --border-subtle: #272b36;
+  --border-strong: #393f4f;
+  --accent: #38b873;
+  --accent-soft: rgba(56, 184, 115, 0.14);
+  --accent-text: #65d697;
+  --gold: #e6a83c;
+  --gold-soft: rgba(230, 168, 60, 0.14);
+  --crimson: #e35d5d;
+  --crimson-soft: rgba(227, 93, 93, 0.14);
+
+  /* Heatmap intensity scale (Dark: midnight emerald vinyl) */
+  --heat-0: #1c2028;
+  --heat-1: #16442c;
+  --heat-2: #1f6d44;
+  --heat-3: #2ea062;
+  --heat-4: #56dc92;
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.35), 0 10px 28px rgba(0, 0, 0, 0.32);
+  --shadow-float: 0 18px 44px rgba(0, 0, 0, 0.6);
+}
+
+html {
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.font-serif-editorial {
+  font-family: "Noto Serif SC", "Songti SC", "STSong", Georgia, serif;
+}
+
+.font-mono-num {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.card-surface {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-card);
+}
+
+.subtle-surface {
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-subtle);
+}
+
+/* Custom subtle scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+@keyframes gachaSpin {
+  0% {
+    transform: translateY(-6px);
+    opacity: 0.45;
+  }
+  50% {
+    transform: translateY(3px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-gacha-pop {
+  animation: gachaSpin 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
